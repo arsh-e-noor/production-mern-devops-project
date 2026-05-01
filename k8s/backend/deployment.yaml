@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: mern-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: arshen00r/backend:latest
+        ports:
+        - containerPort: 5000
+
+        env:
+        - name: MONGO_DB_URI
+          value: mongodb://mongodb:27017/chat-app
+        - name: JWT_SECRET
+          value: mysecretkey
+        - name: NODE_ENV
+          value: production
+
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+
+        livenessProbe:
+          httpGet:
+            path: /test
+            port: 5000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /test
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
