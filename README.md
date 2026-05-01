@@ -201,7 +201,7 @@ kubectl get svc -n mern-app
 
 ## 👩‍💻 Author
 
-**Arshen Noor**
+**Arsh E Noor**
 
 ---
 
